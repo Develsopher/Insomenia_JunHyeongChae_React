@@ -1,4 +1,4 @@
-import {Stepper, Icon, Link, Button, Navbar, NavTitle, Page } from 'framework7-react';
+import {Stepper, Icon, Link, Button, Navbar, NavRight, NavTitle, Page } from 'framework7-react';
 import React, { useState, useEffect, useRef } from 'react';
 import { API_URL, getItem} from '@api';
 import { currency } from '@js/utils';
@@ -13,19 +13,34 @@ const ItemDetail = ({ id }) => {
   const nextId = useRef(1);
   const [selectOptions, setSelectOptions] = useState({
     option: '',
+    price: 0,
+    count: 0,
   })
+  const [quantity, setQuantity] = useState(1)
+  const [count, setCount] = useState(1)
+  const [unitPrice, setUnitPrice] = useState(0)
   const createOptionList = e => {
     setSelectOptions({
       ...selectOptions,
       option: e.target.dataset.value,
+      price: e.target.dataset.price,
+      count: 1,
     })
     const optionList = {
       id: nextId.current,
       option: e.target.dataset.value,
+      price: e.target.dataset.price,
+      count: 1,
     };
-    nextId.current += 1;
-    setOptionLists(optionLists.concat(optionList))
-    setViewOptionList(true)
+    setUnitPrice(e.target.dataset.price)
+
+    if(optionLists.map((item) => item.option).includes(optionList.option)){
+      alert('이미 선택한 옵션입니다.')
+    }else{
+      nextId.current += 1;
+      setOptionLists(optionLists.concat(optionList))
+      setViewOptionList(true)
+    }
   }
 
   useEffect(() => {
@@ -44,10 +59,44 @@ const ItemDetail = ({ id }) => {
   };
   
   const removeList = id => {
-    console.log('하이',id)
     setOptionLists(optionLists.filter( optionLists => optionLists.id !== id))
   }
 
+  const handleQuantity = (value) => {
+    setQuantity(value)
+  }
+
+  const handleCount = id => {
+    setOptionLists(
+      optionLists.map(optionList => 
+        optionList.id === id ? { ...optionList, count: quantity, price: unitPrice*quantity} : optionList)
+    )
+    // setOptionLists(
+    //   optionLists.map(optionList =>
+    //     optionList.id === id ? { ...optionList, price: unitPrice*quantity} : optionList)
+    // )
+  }
+
+  const findSumUsingMap = () => {
+    let t = 0;
+    optionLists.map(({price}) => t = t+Number(price))
+    return t;
+  }
+
+  const findCountUsingMap = () => {
+    let t = 0;
+    optionLists.map(({count}) => t = t+count)
+    return t;
+  }
+
+  const totalPriceUsingMap = findSumUsingMap()
+  const totalCountUsingMap = findCountUsingMap()
+
+  console.log('itemDetail:',itemDetail)
+  console.log('optionList:',optionLists)
+  console.log('수량:',quantity)
+  console.log('클릭한옵션',selectOptions)
+  console.log('count:',count)
   return (
     <Page noToolbar name="itemdetail">
       <Navbar backLink="Back">
@@ -84,7 +133,7 @@ const ItemDetail = ({ id }) => {
       {isBuy && (
         <div className="flex-col items-center justify-center fixed bottom-12 w-full">
           <div className="flex justify-center bg-black text-white">
-            <Button className="relative left-4 mx-6 text-center text-white text-2xl">옵션 선택하기</Button>
+            <Button onClick={handleShowOption} className="relative left-4 mx-6 text-center text-white text-lg">옵션 선택하기</Button>
             <div onClick={handleShowOption}>
               {showOption ? <Icon f7="chevron_down" size="30px"></Icon> : <Icon f7="chevron_up" size="30px"></Icon>}
             </div>
@@ -92,21 +141,30 @@ const ItemDetail = ({ id }) => {
           {showOption && (
             <div className="w-full bg-white">
               {itemDetail.options.map((item) => (
-                <div onClick={createOptionList} key={item.id} data-value={item.name} className="mx-12 py-2 text-xl font-bold">
+                <div onClick={createOptionList} key={item.id} data-value={item.name} data-price={item.price} className="mx-12 py-2 text-base font-bold">
                   {item.name}
                 </div>
               ))}
             </div>
           )}
           {viewOptionList && optionLists.map((item) => (
-            <div className="flex items-center justify-between w-full px-12 py-4 bg-gray-200 text-xl font-bold" key={item.id}>{item.option}
+            <div className="flex items-center justify-around w-full px-4 py-4 bg-gray-200 text-base font-bold" key={item.id}>{item.option}
               <small className="display-block"></small>
-              <Stepper input={false} min={1} max={30} small round fill color="black"/>
+              <div onClick={()=>handleCount(item.id)}>
+                <Stepper className="relative top-1 right-2" onStepperChange={handleQuantity} input={false} min={1} max={30} small round fill color="black" />
+              </div>
+              <div className="w-18">{currency(item.price)}원</div>
               <div onClick={() => removeList(item.id)}>
                 <Icon f7="clear" size="20px"></Icon>
               </div>
             </div>
           ))}
+          {optionLists.length > 0 &&
+            <div className="flex justify-between py-4 px-16 font-bold text-lg">
+              <div>총{totalCountUsingMap}개</div>
+              <div>{currency(totalPriceUsingMap)}원</div>
+            </div>
+          }
         </div>
       )}
       <div className="flex items-center h-12 w-full fixed bottom-0 bg-black">
@@ -115,13 +173,13 @@ const ItemDetail = ({ id }) => {
         </div>
         {isBuy ? (
           <div className="flex items-center">
-            <Button onClick={handleBuy} className="absolute ml-10 w-full text-2xl text-white">
+            <Button onClick={handleBuy} className="absolute ml-10 w-full text-lg text-white">
               구매하기
             </Button>
-            <Button className="w-full h-12 bg-gray-700 text-2xl text-white">장바구니 담기</Button>
+            <Button className="w-full h-12 bg-gray-700 text-lg text-white">장바구니 담기</Button>
           </div>
         ) : (
-          <Button onClick={handleBuy} className="relative w-full text-2xl text-white ">
+          <Button onClick={handleBuy} className="relative w-full text-lg text-white ">
             구매하기
           </Button>
         )}
