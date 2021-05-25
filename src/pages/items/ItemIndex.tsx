@@ -9,8 +9,8 @@ import i18n from '../../assets/lang/i18n';
 
 const SortStates = [
   ['created_at desc', '최신순'],
-  ['sale_price desc', '높은가격순'],
-  ['sale_price asc', '낮은가격순'],
+  ['price desc', '높은가격순'],
+  ['price asc', '낮은가격순'],
 ] as const;
 type SortState = typeof SortStates[number][0];
 
@@ -19,7 +19,7 @@ interface ItemFilterProps {
   category_id_eq: string;
 }
 
-const ItemIndexPage = ({ f7route }) => {
+const ItemIndex = ({ f7route }) => {
   const { is_main, category_id } = f7route.query;
   const [viewType, setViewType] = useState('grid');
   // const queryClient = useQueryClient();
@@ -161,4 +161,4 @@ const ItemIndexPage = ({ f7route }) => {
   );
 };
 
-export default React.memo(ItemIndexPage);
+export default React.memo(ItemIndex);

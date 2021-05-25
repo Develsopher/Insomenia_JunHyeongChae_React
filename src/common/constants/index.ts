@@ -62,9 +62,10 @@ export interface User extends DefaultProps, Address {
 }
 
 export interface Category extends DefaultProps {
-  title: string;
-  body: string;
-  image_path: string;
+  category_name: string;
+  category_name_eng: string;
+  image: string;
+
 }
 
 export interface Image extends DefaultProps {
@@ -74,14 +75,16 @@ export interface Image extends DefaultProps {
 }
 
 export interface Item extends DefaultProps {
-  user_id: number;
+  items: SetStateAction<any[]>;
   category_id: number;
   name: string;
+  price: number;
+  brand: string;
   status: 'active' | 'disabled';
-  list_price: number;
-  sale_price: number;
   description: string;
-  image_path: string;
+  reviews_average: number;
+  reviews_count: number;
+  image: string;
   category?: Category;
   images?: Image[];
   user?: User;

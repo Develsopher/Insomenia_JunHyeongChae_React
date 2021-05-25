@@ -31,6 +31,8 @@
       "@store": ["src/common/store/index"],
       "@selectors": ["src/common/selectors/index"],
     }
+    ,
+    "typeRoots": ["./node_modules/@types", "@types"],
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.{test|spec}.tsx"]

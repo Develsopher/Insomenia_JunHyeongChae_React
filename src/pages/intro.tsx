@@ -85,7 +85,6 @@ const IntroPage = (props) => {
             <div className="flex justify-center p-0 ">
               <img src={`https://insomenia.com/svgs/${item[0]}`} alt="" />
             </div>
-
             {sanitizeHtml(item[1], { className: 'text-lg text-center pt-4' })}
           </SwiperSlide>
         ))}

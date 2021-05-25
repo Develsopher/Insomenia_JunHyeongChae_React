@@ -5,6 +5,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { f7, List, ListInput, Navbar, Page } from 'framework7-react';
 import React from 'react';
 import * as Yup from 'yup';
+import i18next from 'i18next';
 
 interface FormValues {
   name: string;
@@ -35,7 +36,7 @@ const SignUpPage = () => {
   return (
     <Page>
       <Navbar title="회원가입" backLink sliding={false} />
-      <p className="font-semibole text-4xl text-center mt-5">insomenia</p>
+      <p className="font-semibole text-4xl text-center mt-5">JUNSINSA</p>
       <Formik
         initialValues={initialValues}
         validationSchema={SignUpSchema}
