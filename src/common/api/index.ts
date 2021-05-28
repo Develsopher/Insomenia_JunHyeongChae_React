@@ -1,4 +1,4 @@
-import { Category, Item, Token } from '@constants';
+import { Category, Item, Token, Option, Like} from '@constants';
 import { getToken } from '@store';
 import { PlainAPI, API, VERSION, API_URL } from './api.config';
 import { ApiService } from './api.service';
@@ -34,5 +34,8 @@ export const getItemFromCategory = (id, params = null) => API.get<Item>(`/items/
 export const getCategories = (params = null) => API.get<Category[]>('/categories', { params });
 export const getCategory = (id, params = null) => API.get<Category>(`/categories/${id}`, { params });
 export const getOptions = (id, params = null) => API.get<Option>(`/items/${id}/options`, { params });
+export const getLikes = (params = null) => API.get<Like>('/likes', { params });
+export const postLikes = (params = null) => API.post<Like>('/likes', params);
+export const delLikes = (id = null) => API.delete<Like>(`/likes/${id}`);
 
 export { API_URL, VERSION };

@@ -22,7 +22,7 @@ const CategoriedItem = ({ id }) => {
         </NavRight>
       </Navbar>
       {productCard.length ? (
-        <div className="pr-2 border border-#e5e7eb bg-#fff text-right text-lg font-bold">총{productCard.length}건</div>
+        <div className="pr-2 border text-right text-lg font-bold">총{productCard.length}건</div>
       ) : (
         <div className="h-full flex justify-center items-center text-3xl">
           <div>상품을 준비중입니다.</div>

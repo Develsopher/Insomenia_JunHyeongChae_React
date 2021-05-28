@@ -47,13 +47,13 @@ const F7Views = () => {
         <Link tabLink="#view-categories" iconF7="ellipsis" text="카테고리" />
         <Link tabLink="#view-items" icon="las la-gift" text="쇼핑" />
         <Link tabLink="#view-home" tabLinkActive icon="las la-home" text="홈" />
-        <Link tabLink="#view-contacts" icon="las la-edit" text="문의하기" />
+        <Link tabLink="#view-likes" iconF7="heart" text="찜목록" />
         <Link tabLink="#view-mypage" icon="las la-user" text="마이페이지" />
       </Toolbar>
-      <View id="view-categories" stackPages name="categories" tab url="/categorypage?is_main=true"/>
+      <View id="view-categories" stackPages name="categories" tab url="/categorypage?is_main=true" />
       <View id="view-items" stackPages name="items" tab url="/items?is_main=true" />
       <View id="view-home" stackPages main tab tabActive url="/" iosDynamicNavbar={false} />
-      <View id="view-contacts" stackPages name="contacts" tab url="/contacts?is_main=true" />
+      <View id="view-likes" stackPages name="likes" tab url="/likes?is_main=true" />
       <View id="view-mypage" stackPages name="mypage" tab url="/mypage?is_main=true" />
     </Views>
   );

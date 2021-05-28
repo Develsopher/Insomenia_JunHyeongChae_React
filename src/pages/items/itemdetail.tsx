@@ -71,10 +71,6 @@ const ItemDetail = ({ id }) => {
       optionLists.map(optionList => 
         optionList.id === id ? { ...optionList, count: quantity, price: unitPrice*quantity} : optionList)
     )
-    // setOptionLists(
-    //   optionLists.map(optionList =>
-    //     optionList.id === id ? { ...optionList, price: unitPrice*quantity} : optionList)
-    // )
   }
 
   const findSumUsingMap = () => {

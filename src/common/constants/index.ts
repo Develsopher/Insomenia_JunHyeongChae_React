@@ -89,3 +89,14 @@ export interface Item extends DefaultProps {
   images?: Image[];
   user?: User;
 }
+
+export interface Option extends DefaultProps {
+  item_id: number;
+  name: string;
+  price: number;
+}
+
+export interface Like extends DefaultProps {
+  item_id: number;
+  user_id: number;
+}
