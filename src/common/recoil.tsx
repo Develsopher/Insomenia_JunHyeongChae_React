@@ -5,11 +5,6 @@ export const LikeState = atom({
   default: [],
 });
 
-export const LikeList = atom({
-  key: 'LikeList',
-  default: [],
-});
-
 export const QuantityState = atom({
   key: 'QuantityState',
   default: 1,

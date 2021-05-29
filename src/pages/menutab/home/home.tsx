@@ -2,7 +2,7 @@ import { Link, f7ready, Navbar, NavLeft, NavRight, NavTitle, Page } from 'framew
 import React, { useEffect, useState } from 'react';
 import { API_URL, getItems, getLikes } from '@api';
 import { useRecoilState } from 'recoil';
-import { LikeList } from '../../../common/recoil';
+import { LikeState } from '../../../common/recoil';
 import slideData from './slideData';
 import HomeSlide from './homeSlide';
 import ItemCard from '../../../components/ItemCard';
@@ -10,6 +10,7 @@ import ItemCard from '../../../components/ItemCard';
 const Home = () => {
   const [slides, setSlides] = useState([]);
   const [itemList, setItemList] = useState([]);
+  const [likeItem, setLikeItem] = useRecoilState(LikeState);
   // const [likeList, setLikeList] = useRecoilState(LikeList);
   // const [likeList, setLikeList] = useState([]);
 
@@ -26,12 +27,15 @@ const Home = () => {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data } = await getLikes({ q: { s: ['titles asc'] } });
-  //     setLikeList(data);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const { data } = await getLikes();
+      setLikeItem(data);
+    })();
+  }, []);
+
+  const likeItemArray = [];
+  likeItem.map((item) => likeItemArray.push(item.id));
 
   return (
     <Page name="home">
@@ -58,6 +62,7 @@ const Home = () => {
               price={item.price}
               reviews_average={item.reviews_average}
               reviews_count={item.reviews_count}
+              isLike={likeItemArray.includes(item.id)}
             />
           ))}
       </div>
